@@ -5,20 +5,21 @@ from django.core.mail import send_mail
 from config import settings
 from service import models
 
-
 def send_mailing(recipients) -> None:
-    """Отправка рассылки клиентам из списка recipients"""
-    print('отправка...')
+    """Отправка рассылки клиентам из списка recipients."""
+    print('Отправка...')
     emails = recipients.client.values('email')  # список почтовых адресов для рассылки
     title = recipients.message.title  # тема письма
     text = recipients.message.message  # текст письма
 
     for email in emails:
         try:
-            send_mail(title,  # Тема письма
-                      text,
-                      settings.EMAIL_HOST_USER,  # От кого письмо
-                      recipient_list=[email['email']])  # попытка отправить письмо
+            send_mail(
+                title,  # Тема письма
+                text,
+                settings.EMAIL_HOST_USER,  # От кого письмо
+                recipient_list=[email['email']]  # попытка отправить письмо
+            )
             status = 'success'
             answer = 'Письмо отправлено успешно!'
 
@@ -29,9 +30,8 @@ def send_mailing(recipients) -> None:
 
         models.MailingLog.objects.create(status=status, answer=answer, mailing=recipients)  # создание записи в логе
 
-
 def send_email_tasks():
-    """Функция для управления рассылками"""
+    """Функция для управления рассылками."""
     print('Запущена функция для управления рассылками')
     now = datetime.now(utc)  # текущая дата и время
     mailings = models.Mailing.objects.filter(status__in=[2, 3])  # рассылки со статусом создана или запущена

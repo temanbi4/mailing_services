@@ -9,14 +9,17 @@ from users.models import User
 
 
 class UserLoginView(LoginView):
+    """Класс-представление для входа пользователя"""
     template_name = 'users/login.html'
 
 
 class UserLogoutView(LogoutView):
+    """Класс-представление для выхода пользователя"""
     pass
 
 
 class UserRegisterView(CreateView):
+    """Класс-представление для регистрации нового пользователя"""
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy('users:login')
@@ -24,6 +27,7 @@ class UserRegisterView(CreateView):
 
 
 class UserUpdateView(UpdateView):
+    """Класс-представление для обновления профиля пользователя"""
     model = User
     success_url = reverse_lazy('service:home')
     form_class = UserProfileForm
@@ -33,6 +37,7 @@ class UserUpdateView(UpdateView):
 
 
 class UsersListView(ListView):
+    """Класс-представление для вывода списка зарегистрированных пользователей сервиса"""
     model = User
 
     def get_context_data(self, *args, **kwargs):
@@ -64,4 +69,3 @@ def block_user(request, pk):
     user_for_block.save()
 
     return redirect(reverse('users:users_list'))  # перенаправление на страницу со списком пользователей
-

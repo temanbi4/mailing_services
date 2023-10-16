@@ -1,11 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
 from service.models import NULLABLE
 
-
 class User(AbstractUser):
-    """Модель пользователя"""
+    """
+    Модель пользователя.
+    """
     username = None
 
     email = models.EmailField(unique=True, verbose_name='email')
@@ -18,4 +18,3 @@ class User(AbstractUser):
     class Meta:
         permissions = [('can_view_users', 'can_view_users'),
                        ('can_block_users', 'can_block_users')]
-
