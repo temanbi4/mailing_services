@@ -1,0 +1,97 @@
+{% extends 'service/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">{{ title }}</p>
+</div>
+<div class="container">
+    <div class="row text-center">
+        {% for object in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.date_time }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <h6>Клиенты:</h6>
+                        <li>{{ object.client.all | join:", " }}</li>
+                        <h6>Сообщение:</h6>
+                        <li>{{ object.message }}</li>
+                        <h6>Периодичность:</h6>
+                        <li>{{ object.get_periodicity_display }}</li>
+                        <h6>Статус:</h6>
+                        <li>{{ object.get_status_display }}</li>
+                    </ul>
+                    {% if object.owner == user or user.is_superuser %}
+                        <a href="{% url 'service:update' object.pk %}" type="button" class="btn btn-lg btn-block btn-outline-primary">Редактировать</a>
+                        <a href="{% url 'service:delete' object.pk %}" type="button" class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
+                    {% elif perms.service.can_disable_mailings %}
+                        <a href="{% url 'service:disable' object.pk %}" type="button" class="btn btn-lg btn-block btn-outline-danger">Отключить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">Случайные статьи из блога</p>
+</div>
+<div class="container">
+    <div class="row text-center">
+        {% for post in posts %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ post.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <h6>Описание:</h6>
+                        <li>{{ post.description }}</li>
+                        <h6>Изображение:</h6>
+                        <li>{{ post.image }}</li>
+                        <h6>Количество просмотров:</h6>
+                        <li>{{ post.views_count }}</li>
+                        <h6>Дата создания:</h6>
+                        <li>{{ post.published_at }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">Статистика сервиса</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h6 class="card-title">Количество активных рассылок</h6>
+                    <p class="card-text">{{ count_active_mailings }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h6 class="card-title">Общее количество рассылок</h6>
+                    <p class="card-text">{{ count_mailings }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h6 class="card-title">Количество уникальных клиентов для рассылок</h6>
+                    <p class="card-text">{{ count_clients }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
