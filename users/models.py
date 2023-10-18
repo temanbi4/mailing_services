@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from service.models import NULLABLE
 
+
 class User(AbstractUser):
     """
     Модель пользователя.

@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from config import settings
 from users.models import User
 
+
 class UserRegisterForm(UserCreationForm):
     """
     Форма регистрации пользователя.

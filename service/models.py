@@ -1,6 +1,6 @@
 from django.db import models
 from config import settings
-from service.cron import send_mailing
+
 
 # Варианты периодичности рассылки (раз в день, в неделю, в месяц)
 MAILING_PERIODICITY = [(1, 'раз в день'), (2, 'раз в неделю'), (3, 'раз в месяц')]
@@ -10,6 +10,7 @@ MAILING_STATUS = [(1, 'завершена'), (2, 'создана'), (3, 'зап�
 
 # Параметры для необязательных полей
 NULLABLE = {'null': True, 'blank': True}
+
 
 class MailingMessage(models.Model):
     """Модель сообщения для рассылки"""
@@ -24,6 +25,7 @@ class MailingMessage(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Client(models.Model):
     """Модель клиента сервиса рассылок (того кому будем отправлять)"""
@@ -41,6 +43,7 @@ class Client(models.Model):
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
+
 
 class Mailing(models.Model):
     """Модель настройки для рассылки"""
@@ -61,6 +64,7 @@ class Mailing(models.Model):
         permissions = [('can_view_mailings', 'can_view_mailings'),
                        ('can_disable_mailings', 'can_disable_mailings')]
 
+
 class MailingLog(models.Model):
     """Модель лог рассылки"""
 
@@ -72,6 +76,7 @@ class MailingLog(models.Model):
     class Meta:
         verbose_name = 'Лог'
         verbose_name_plural = 'Логи'
+
 
 class Blog(models.Model):
     """Модель блога"""

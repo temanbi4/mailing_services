@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from pytz import utc
 from django.core.mail import send_mail
-
 from config import settings
 from service import models
+
 
 def send_mailing(recipients) -> None:
     """Отправка рассылки клиентам из списка recipients."""
@@ -29,6 +29,7 @@ def send_mailing(recipients) -> None:
             answer = str(err)
 
         models.MailingLog.objects.create(status=status, answer=answer, mailing=recipients)  # создание записи в логе
+
 
 def send_email_tasks():
     """Функция для управления рассылками."""
